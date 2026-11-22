@@ -23,6 +23,7 @@ vibe: Reviews code like a mentor, not a gatekeeper. Every comment teaches someth
 - `sqlite3` is imported only by each process's `db.py`; SQL is parameterized; foreign keys are on for every connection.
 - Every mutating route checks loopback Host and same-origin Origin and bounds the body; receipt text never reaches `innerHTML`.
 - No new dependency, external URL, fixed test port or non-loopback listener.
+- Any change under `static/` or any user-facing text follows `docs/ui-quality.md` (ten rules; rule 1, no thick one-sided accent border, can be searched for in the CSS). Check the changed screens against each rule and name the rule number in a finding. Copy and pull request text went through the `unslop` skill.
 
 **Does not apply.** Generic advice for other languages, frameworks or linters.
 

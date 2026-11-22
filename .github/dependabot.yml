@@ -1,0 +1,8 @@
+# The product uses the Python standard library only (docs/TECHNICAL_SPEC.md), so there
+# is no pip entry. Add one only if the owner approves a third-party package.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

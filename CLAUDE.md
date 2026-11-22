@@ -18,6 +18,8 @@ A simulator of an offline retail point of sale for a fictional chain. A store pr
 | Backlog | Epic issue #1 and its sub-issues on GitHub. The epic's table is authoritative for order, dependencies, parallel tracks and estimates. |
 | Loop setup and its limits | [LOOP.md](LOOP.md), [loop-constraints.md](loop-constraints.md) |
 | Project subagents, their origin and local changes | [.claude/agency-agents/README.md](.claude/agency-agents/README.md) |
+| Owner decisions, dated, with where each is implemented | [docs/owner-decisions.md](docs/owner-decisions.md) |
+| UI rules (ten, binding) | [docs/ui-quality.md](docs/ui-quality.md) |
 | Ticket workflow and the step at which each agent role runs | [.claude/skills/implement-ticket/SKILL.md](.claude/skills/implement-ticket/SKILL.md), section "Agent roles" below |
 
 The PRD and the technical specification state the same design twice; cite the technical specification. Once code exists, the code is the baseline when it disagrees with the plan, and [docs/architecture.md](docs/architecture.md) records the difference.
@@ -89,6 +91,21 @@ Items 1 to 7 are recorded locally before the draft pull request is opened and bo
 7. `git status` with no stray files, and confirmation that no dependency, external URL or non-loopback listener was added.
 8. Green CI on the draft pull request, checked by the driver before `gh pr ready`; Reality Checker is not asked to confirm it.
 9. Anything not verified, said plainly.
+
+## Delivery workflow
+
+How a ticket gets from the backlog to a pull request. Each item is defined in the file linked; this part only points at them.
+
+- **Start:** only the owner starts ticket work, with `/next-ticket [issue number]` ([driver](.claude/skills/next-ticket/SKILL.md)). Starting it is the go signal; nothing is scheduled. One ticket per run.
+- **Playbook:** [implement-ticket](.claude/skills/implement-ticket/SKILL.md), with the roles in "Agent roles" below.
+- **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its local ledger is `.claude/state/`, which Git ignores.
+- **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first.
+- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that ticket removes; the gate self-test runs always.
+- **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).
+- **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
+- **Changelog:** every ticket pull request adds a line to [CHANGELOG.md](CHANGELOG.md).
+- **UI and copy:** UI tickets follow [docs/ui-quality.md](docs/ui-quality.md) and start with the `ui-ux-pro-max` skill; copy, docs and pull request text go through the `unslop` skill.
+- **Merge and release:** only the owner merges and releases ([docs/RELEASING.md](docs/RELEASING.md)). Decisions the owner made are in [docs/owner-decisions.md](docs/owner-decisions.md); an agent that finds one blocking a ticket stops and says so.
 
 ## Loop
 

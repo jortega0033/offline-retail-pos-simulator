@@ -21,6 +21,7 @@ vibe: If it's not tested with a screen reader, it's not accessible.
 - The operator panel states pending count, last confirmed sequence and the reason a delivery is blocked in words, not colour alone.
 - The print view is readable as text and carries the receipt fields the spec lists.
 - Contrast and target size are sufficient, and the page works at narrow and wide viewports.
+- The screens also keep `docs/ui-quality.md` (for example status is carried by text or an icon, not only by a tinted chip, and one accent colour marks the primary action and current selection). Report a breach under the rule number.
 
 **Does not apply.** `npx` tools such as axe and Lighthouse, voice-control testing and any legal section; this repository has no npm tooling.
 

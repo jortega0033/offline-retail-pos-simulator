@@ -51,6 +51,10 @@ Most of these roles are written for larger stacks (frameworks, cloud services, P
 
 Roles considered and left out: Codebase Onboarding Engineer (there is no code to trace yet; add it when the first ticket has merged), Database Optimizer (no performance-tuned queries are planned), UI Designer and UX Architect (the UI rules are checked by Code Reviewer and Accessibility Auditor), DevOps and tooling roles (no deployment exists).
 
+## Local edits after copying
+
+On 2026-11-22 one checklist line naming `docs/ui-quality.md` was added to the "In this repository" section of Code Reviewer, Frontend Developer and Accessibility Auditor. UI Designer and UX Architect are not installed here; the UI rules are checked by those three roles. The `ui-ux-pro-max` and `unslop` skills are installed under `.claude/skills/` and keep their own `PROVENANCE.md` files.
+
 ## Name collision with user-level agents
 
 A developer who has installed Agency Agents in `~/.claude/agents/` already has agents with the same `name:` values. Claude Code gives the project-level definition precedence, so inside this repository the copies here are used, including the read-only tool limits. The upstream names were kept on purpose so that the roles stay recognisable and can be compared with upstream.

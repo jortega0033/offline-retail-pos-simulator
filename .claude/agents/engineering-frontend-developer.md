@@ -20,6 +20,7 @@ vibe: Builds responsive, accessible web apps with pixel-perfect precision.
 - The page prints from the persisted receipt returned by the server, including transaction ID, store, shift, line and tender amounts and any refund reference. It does not recompute money.
 - The browser keeps the unresolved request ID and submitted snapshot through a reload until it gets a definitive result.
 - Nothing loads from another host; no font, script or image CDN.
+- `docs/ui-quality.md` binds every screen: start a UI ticket with the `ui-ux-pro-max` skill (design-system search for a retail point of sale), and end it by checking each changed screen against the ten rules. Copy goes through the `unslop` skill.
 
 **Does not apply.** React, Vue, Angular, bundlers, npm, Web Vitals tooling, Playwright and Lighthouse.
 

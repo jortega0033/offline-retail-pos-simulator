@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test (${{ matrix.os }}, python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Review gate self-test
+        run: python .claude/hooks/role_gate.py --self-test
+      # GUARD: the repository has no application code yet, and `python -m unittest`
+      # exits non-zero when it finds no tests. Ticket #2 (walking skeleton) adds
+      # retail_pos/ and its tests and deletes this `if:` line in the same pull request.
+      - name: Tests
+        if: ${{ hashFiles('retail_pos/__init__.py') != '' }}
+        run: python -m unittest

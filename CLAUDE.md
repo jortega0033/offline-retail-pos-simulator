@@ -76,18 +76,18 @@ Rules that every change keeps (each is stated in [docs/TECHNICAL_SPEC.md](docs/T
 - Only the owner merges and releases. Do not push to `main`, do not merge your own pull request, do not force-push.
 - Order for every ticket: local checks, Code Reviewer, Reality Checker, a draft pull request, CI on that draft, then ready only when CI is green.
 - Never commit a data directory, a SQLite file or `.env*`.
-- Do not change `.claude/agents/`, `LOOP.md`, `loop-constraints.md` or `loop-budget.md` as part of a feature ticket.
+- In a ticket, do not change `.claude/agents/`, `.claude/skills/`, `.claude/hooks/`, `.claude/settings.json`, `.claude/agency-agents/`, `LOOP.md`, `loop-constraints.md` or `loop-budget.md`, by any means including shell commands.
 
 ## Evidence before a ticket is called done
 
-Items 1 to 7 are recorded locally before the draft pull request is opened and both gates judge them. Item 8 follows once the draft is open. Paste real output into the pull request; never summarize a run you did not make.
+Items 1 to 7 are what the agent can record locally before the draft pull request is opened, and both gates judge them. Steps the ticket marks manual and that need a person (browser name and version, keyboard-only run, devtools storage, network log) are done by the agent as far as it can, with scripted evidence, and the rest is listed under "Owner checks" in the pull request; the gates judge the scripted evidence and the Owner checks list, not a browser record. Item 8 follows once the draft is open. Paste real output into the pull request; never summarize a run you did not make.
 
 1. The output tail of `python -m unittest` from a clean checkout, with the Python version and operating system, and the test count before and after the change.
-2. For each acceptance criterion in the issue: the test that proves it, or the exact manual step and what was observed.
+2. For each acceptance criterion in the issue: the test that proves it, or, for a step the ticket marks manual, the scripted evidence the agent could produce plus the remaining step listed under "Owner checks".
 3. For money, allocation or digest code: the spec fixture values checked against paper arithmetic in the test itself ([docs/TECHNICAL_SPEC.md](docs/TECHNICAL_SPEC.md), "Deterministic fixture and verification").
 4. For persistence or sync code: the interruption or duplicate-delivery case exercised, the raw rows read back after the restart, and the SQLite version and journal settings reported.
 5. For a new or changed route: one request and response pair per success and per error status, from a server on an ephemeral port and a scratch data directory.
-6. For a change under the static UI: a browser run on the loopback URL with the browser name and version, keyboard-only operation of the changed controls, and a console and network log with no errors and no external request. Browser checks are manual.
+6. For a change under the static UI: the evidence an agent can produce, namely tests, HTTP request and response pairs from a server on an ephemeral port, the static scan (no external URL, no non-loopback listener), the CSP header and the served HTML. Steps the ticket marks manual (browser name and version, keyboard-only operation of the changed controls, devtools storage, console and network log) go under "Owner checks" in the pull request; the agent never invents a browser record.
 7. `git status` with no stray files, and confirmation that no dependency, external URL or non-loopback listener was added.
 8. Green CI on the draft pull request, checked by the driver before `gh pr ready`; Reality Checker is not asked to confirm it.
 9. Anything not verified, said plainly.
@@ -98,7 +98,7 @@ How a ticket gets from the backlog to a pull request. Each item is defined in th
 
 - **Start:** only the owner starts ticket work, with `/next-ticket [issue number]` ([driver](.claude/skills/next-ticket/SKILL.md)). Starting it is the go signal; nothing is scheduled. One ticket per run. Only leaf tickets are picked, never a `tracking` parent; the pull request of a parent's last sub-issue also closes the parent.
 - **Playbook:** [implement-ticket](.claude/skills/implement-ticket/SKILL.md), with the roles in "Agent roles" below.
-- **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its local ledger is `.claude/state/`, which Git ignores.
+- **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its ledger is `claude-role-runs.jsonl` in the repository's common git dir (shared by the main checkout and all worktrees); the older `.claude/state/role-runs.jsonl`, which Git ignores, is still read.
 - **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first, at any depth so ticket worktrees ask too. Acceptance steps that need a person are listed under "Owner checks" in the pull request.
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. The driver does not poll: after the push it ends the turn with "Draft pull request #N is waiting for CI" and reads `gh pr checks` once when woken. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that enables itself once `retail_pos/__init__.py` exists; the gate self-test runs always. Deleting the guard line afterwards is optional cleanup that needs the owner (edits to `.github/` ask first).
 - **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).

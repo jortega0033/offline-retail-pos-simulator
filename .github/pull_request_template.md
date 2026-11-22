@@ -23,6 +23,10 @@ Closes #
 | Code Reviewer | | |
 | Reality Checker | | |
 
+## Owner checks
+
+<!-- Steps the ticket marks manual that an agent cannot do (browser name and version, keyboard-only run, devtools storage, network log). One line each; write "none" if there are none. -->
+
 ## Risks and rollback
 
 <!-- What could break, and how to undo this change. -->

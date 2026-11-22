@@ -55,6 +55,10 @@ Roles considered and left out: Codebase Onboarding Engineer (there is no code to
 
 On 2026-11-22 one checklist line naming `docs/ui-quality.md` was added to the "In this repository" section of Code Reviewer, Frontend Developer and Accessibility Auditor. UI Designer and UX Architect are not installed here; the UI rules are checked by those three roles. The `ui-ux-pro-max` and `unslop` skills are installed under `.claude/skills/` and keep their own `PROVENANCE.md` files.
 
+## Load check (2026-11-22)
+
+Run from the repository root with `claude -p "List every project subagent in .claude/agents with its name and tools, say whether each starts with a section titled In this repository, and list the project skills." --model haiku` (Claude Code 2.1.323). Result: 12 project subagents. The 11 Agency Agents roles start with "In this repository"; `loop-verifier` does not (it is not an Agency Agents file). Tools: `Read, Grep, Glob` for Code Reviewer, Reality Checker, Software Architect, Database Reliability Engineer, Application Security Engineer, Accessibility Auditor, Performance Benchmarker and loop-verifier; no `tools:` line (full tools) for Backend Architect, Frontend Developer, Test Automation Engineer and API Tester. Project skills listed: implement-ticket, next-ticket, loop-budget, loop-constraints, loop-intake, issue-triage, ui-ux-pro-max, unslop. The run also printed that the `permissions.allow` entries of `.claude/settings.json` were ignored because the workspace (a worktree path) was not trusted yet; the owner's checkout needs the trust dialog accepted once.
+
 ## Name collision with user-level agents
 
 A developer who has installed Agency Agents in `~/.claude/agents/` already has agents with the same `name:` values. Claude Code gives the project-level definition precedence, so inside this repository the copies here are used, including the read-only tool limits. The upstream names were kept on purpose so that the roles stay recognisable and can be compared with upstream.

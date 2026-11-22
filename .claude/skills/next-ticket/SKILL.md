@@ -1,6 +1,6 @@
 ---
 name: next-ticket
-description: Take the next ready ticket of epic #1 up to a ready pull request. Started only by the owner; starting it is the go signal.
+description: 'Take the next ready ticket of epic #1 up to a ready pull request. Started only by the owner; starting it is the go signal.'
 disable-model-invocation: true
 argument-hint: "[issue number]"
 ---

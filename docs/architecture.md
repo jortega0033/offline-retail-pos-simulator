@@ -22,9 +22,10 @@ One package, `retail_pos/`, plus `tests/`. Each row is a boundary; a new module 
 | `contract.py` | versioned event envelope, canonical form, digest, validation of a received envelope | do I/O |
 | `store/` (`db.py`, `checkout.py`, `shifts.py`, `refunds.py`, `outbox.py`, `sync.py`, `routes.py`) | store schema and transactions, sale and refund logic, delivery of outbox rows, store routes | read head-office tables |
 | `head_office/` (`db.py`, `ingest.py`, `reports.py`, `routes.py`) | ledger, cursor, acknowledgement, summaries | read store tables |
+| `faultlink.py` | loopback forwarder for tests and the harness with modes pass, refuse, delay and drop-reply (ticket #8) | bind to a non-loopback address or forward to one |
 | `faults.py` | named checkpoints that exit the process, enabled only by a test-only switch | be reachable from a browser request |
 | `static/` | register, receipt print view, operator panel, cash-up and refund screens in native JavaScript | use `innerHTML` for receipt or catalog text; call another host |
-| `demo.py`, `evidence.py` | repeatable demo; two-store evidence report | change production behavior |
+| `demo.py`, `evidence.py`, `evidence_check.py` | repeatable demo; two-store evidence report; independent recalculation from raw rows (imports nothing from `money.py` or the summary code) | change production behavior |
 | `tests/` | `unittest`: pure arithmetic, storage, HTTP over a real server on an ephemeral port, restart and interruption cases, static-asset scan | use a fixed port or the network |
 
 `db.py` in each process is the only code that imports `sqlite3`. Both databases use rollback journaling, `synchronous=FULL` and `PRAGMA foreign_keys=ON` on every connection ([TECHNICAL_SPEC.md](TECHNICAL_SPEC.md), "Local persistence and recovery").

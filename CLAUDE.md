@@ -94,17 +94,24 @@ Items 1 to 7 are recorded locally before the draft pull request is opened and bo
 
 Issue triage runs at L1: report-only, started by hand, no scheduler, no GitHub writes. See [LOOP.md](LOOP.md).
 
-## Ticket implementation: agent roles run automatically
+## Agent roles
 
-When asked to implement, continue or finish a GitHub issue, follow the playbook in [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md). Claude Code loads it on its own for ticket work; `/implement-ticket <issue number>` starts it by hand.
+Project subagents are in `.claude/agents/`: eleven Agency Agents roles and `loop-verifier`, which belongs to the Loop setup. Each Agency Agents role file starts with a section "In this repository", written for this project: the stack and hard rules that bind the role, the files it owns or reviews, its commands or the output it must be given, a checklist of this project's rules, the parts of the generic text that do not apply, and what it hands back. Nothing is implemented yet, so those sections describe planned modules and commands. That section and this file override the generic text below it. Sources, licence and local changes are in [.claude/agency-agents/README.md](.claude/agency-agents/README.md).
 
-Delegate to the project subagents in `.claude/agents/` without waiting to be asked:
+When asked to implement, continue or finish a GitHub issue, follow the playbook [`.claude/skills/implement-ticket/SKILL.md`](.claude/skills/implement-ticket/SKILL.md). Claude Code loads it on its own for ticket work; `/implement-ticket <issue number>` starts it by hand. Delegate to the roles without waiting to be asked: each role's `description` ends with a "Use proactively ..." sentence, which is what makes Claude Code delegate. The playbook gives the exact trigger of each role.
 
-- **Before coding:** Software Architect, as their descriptions say.
-- **While coding:** the implementing role that matches the files being changed.
-- **After coding:** each specialist reviewer whose trigger matches the change.
-- **On every ticket, before it is called done:** Code Reviewer, then Reality Checker.
-- The session that wrote a change does not count as its reviewer.
-- List the roles that ran and their verdicts in the pull request description under "Agent roles run".
+| When | Roles | Access |
+|---|---|---|
+| Before coding | Software Architect (module boundary, data model, schema, event contract, route or dependency) | `Read, Grep, Glob` |
+| While coding | Backend Architect (server, persistence), Frontend Developer (static UI), Test Automation Engineer (fixtures, harness, tests) | can edit |
+| While coding | Database Reliability Engineer (schema, constraints, transactions, restart and interruption handling) | `Read, Grep, Glob` |
+| After coding, when the trigger matches | Application Security Engineer (untrusted input, Host and Origin checks, event validation), Accessibility Auditor (UI, keyboard, focus), Performance Benchmarker (reported measurements) | `Read, Grep, Glob` |
+| After coding, when the trigger matches | API Tester (new or changed route or status code) | can edit |
+| Gate on every ticket | Code Reviewer on the full diff, until no material finding is left | `Read, Grep, Glob` |
+| Acceptance gate on every ticket, after Code Reviewer | Reality Checker on each acceptance criterion and the recorded local evidence, and that CI is configured to run the checks (no CI result is needed) | `Read, Grep, Glob` |
 
-Each role's `description` ends with a "Use proactively ..." sentence, which is what makes Claude Code delegate to it without being told.
+- The two gates run on every ticket, whatever its size. A ticket is not called done before both have passed.
+- Roles limited to `Read, Grep, Glob` cannot run commands. Give them the diff, the acceptance criteria and the recorded command output.
+- The session or role that wrote a change does not count as its reviewer.
+- If a role is missing or cannot be delegated to, the session does the before-coding, while-coding and specialist steps itself and says so. It cannot pass the two gates on its own change: do not push or open the pull request. Stop, report that the gates could not run, and leave the run for the owner. A pull request is opened or marked ready only after both gates passed on the current diff.
+- In the pull request description, list under "Agent roles run" each role that ran, what it was asked and its verdict, and any step done without a role.

@@ -96,11 +96,11 @@ Items 1 to 7 are recorded locally before the draft pull request is opened and bo
 
 How a ticket gets from the backlog to a pull request. Each item is defined in the file linked; this part only points at them.
 
-- **Start:** only the owner starts ticket work, with `/next-ticket [issue number]` ([driver](.claude/skills/next-ticket/SKILL.md)). Starting it is the go signal; nothing is scheduled. One ticket per run.
+- **Start:** only the owner starts ticket work, with `/next-ticket [issue number]` ([driver](.claude/skills/next-ticket/SKILL.md)). Starting it is the go signal; nothing is scheduled. One ticket per run. Only leaf tickets are picked, never a `tracking` parent; the pull request of a parent's last sub-issue also closes the parent.
 - **Playbook:** [implement-ticket](.claude/skills/implement-ticket/SKILL.md), with the roles in "Agent roles" below.
 - **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its local ledger is `.claude/state/`, which Git ignores.
-- **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first.
-- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that enables itself once `retail_pos/__init__.py` exists; the gate self-test runs always. Deleting the guard line afterwards is optional cleanup that needs the owner (edits to `.github/` ask first).
+- **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first, at any depth so ticket worktrees ask too. Acceptance steps that need a person are listed under "Owner checks" in the pull request.
+- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. The driver does not poll: after the push it ends the turn with "Draft pull request #N is waiting for CI" and reads `gh pr checks` once when woken. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that enables itself once `retail_pos/__init__.py` exists; the gate self-test runs always. Deleting the guard line afterwards is optional cleanup that needs the owner (edits to `.github/` ask first).
 - **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).
 - **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
 - **Changelog:** every ticket pull request adds a line to [CHANGELOG.md](CHANGELOG.md).
@@ -128,7 +128,7 @@ When asked to implement, continue or finish a GitHub issue, follow the playbook 
 | Acceptance gate on every ticket, after Code Reviewer | Reality Checker on each acceptance criterion and the recorded local evidence, and that CI is configured to run the checks (no CI result is needed) | `Read, Grep, Glob` |
 
 - The two gates run on every ticket, whatever its size. A ticket is not called done before both have passed.
-- Roles limited to `Read, Grep, Glob` cannot run commands. Give them the diff, the acceptance criteria and the recorded command output.
+- Roles limited to `Read, Grep, Glob` cannot run commands. Before calling them, write the diff and the recorded check output to `.claude/state/review/` in the ticket worktree and name the files in the request.
 - The session or role that wrote a change does not count as its reviewer.
 - If a role is missing or cannot be delegated to, the session does the before-coding, while-coding and specialist steps itself and says so. It cannot pass the two gates on its own change: do not push or open the pull request. Stop, report that the gates could not run, and leave the run for the owner. A pull request is opened or marked ready only after both gates passed on the current diff.
 - In the pull request description, list under "Agent roles run" each role that ran, what it was asked and its verdict, and any step done without a role.

@@ -17,7 +17,7 @@ One package, `retail_pos/`, plus `tests/`. Each row is a boundary; a new module 
 | Module | Job | Must not |
 |---|---|---|
 | `cli.py`, `__main__.py` | arguments (role, data directory, port, store ID), start-up errors | hold business rules |
-| `http_common.py` | request guards (loopback Host, same-origin Origin, body cap), JSON in and out, static files, error envelope | run SQL, compute money |
+| `http_common.py` | request guards (loopback Host, same-origin Origin, body cap), JSON in and out, static files with `Content-Security-Policy: default-src 'self'` on every static response, error envelope | run SQL, compute money |
 | `money.py` | integer minor units, line gross, basis-point discount, largest-remainder allocation and split | do I/O, import `sqlite3` |
 | `contract.py` | versioned event envelope, canonical form, digest, validation of a received envelope | do I/O |
 | `store/` (`db.py`, `checkout.py`, `shifts.py`, `refunds.py`, `outbox.py`, `sync.py`, `routes.py`) | store schema and transactions, sale and refund logic, delivery of outbox rows, store routes | read head-office tables |
@@ -26,7 +26,7 @@ One package, `retail_pos/`, plus `tests/`. Each row is a boundary; a new module 
 | `faults.py` | named checkpoints that exit the process, enabled only by a test-only switch | be reachable from a browser request |
 | `static/` | register, receipt print view, operator panel, cash-up and refund screens in native JavaScript | use `innerHTML` for receipt or catalog text; call another host |
 | `demo.py`, `evidence.py`, `evidence_check.py` | repeatable demo; two-store evidence report; independent recalculation from raw rows (imports nothing from `money.py` or the summary code) | change production behavior |
-| `tests/` | `unittest`: pure arithmetic, storage, HTTP over a real server on an ephemeral port, restart and interruption cases, static-asset scan | use a fixed port or the network |
+| `tests/` (top level, next to `retail_pos/`, with `tests/__init__.py` so that `python -m unittest` discovers it) | `unittest`: pure arithmetic, storage, HTTP over a real server on an ephemeral port, restart and interruption cases, static-asset scan | use a fixed port or the network |
 
 `db.py` in each process is the only code that imports `sqlite3`. Both databases use rollback journaling, `synchronous=FULL` and `PRAGMA foreign_keys=ON` on every connection ([TECHNICAL_SPEC.md](TECHNICAL_SPEC.md), "Local persistence and recovery").
 
@@ -49,3 +49,7 @@ Money and shifts: [TECHNICAL_SPEC.md](TECHNICAL_SPEC.md), "Money and shifts". Id
 | Test-only fault switch | environment variable read once at start, ignored unless the harness set it | ticket #3, used by ticket #7 |
 
 Anything else the spec leaves open is an owner decision listed in the epic with its default.
+
+## Backlog authority
+
+The PRD lists six tickets and 18 to 30 h. Epic [#1](https://github.com/jortega0033/offline-retail-pos-simulator/issues/1) replaced that with eight tickets and a larger estimate after 17 PRD requirements turned out to be uncovered. The epic's table is the authoritative backlog; where the PRD and the epic differ, the epic wins and the PRD is not edited.

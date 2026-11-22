@@ -14,7 +14,7 @@ The product is a simulator run from source with the Python standard library. The
 ## Steps
 
 1. On a clean checkout of `main`, confirm CI is green for the latest commit on `main` (Linux and Windows, Python 3.12 and 3.13).
-2. Run `python -m unittest` and `python -m retail_pos.evidence` from a scratch directory. Both must exit 0. Keep the evidence report output.
+2. Run `python -m unittest` and `python -m retail_pos.evidence` (planned, ticket #7) from a scratch directory. Both must exit 0. Keep the evidence report output.
 3. In `CHANGELOG.md`, rename `Unreleased` to the new version and date, and start a new empty `Unreleased` section.
 4. Merge that change through a pull request.
 5. Tag the merge commit as `vMAJOR.MINOR.PATCH` (start at `v0.1.0`) and push the tag.

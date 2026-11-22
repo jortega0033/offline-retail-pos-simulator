@@ -36,6 +36,10 @@ claude -p "Run the loop-constraints skill, then the issue-triage skill in L1 rep
 
 Review the diff of `issue-triage-state.md` afterwards. Committing it is a human decision.
 
+## Recorded health check (2026-11-22)
+
+Run once from the repository root with `@cobusgreyling/loop@0.2.0` after the scaffold was installed. `doctor .`: Ready 100/100 L3, Status HEALTHY, exit 0 (its note: could not parse the loop-sync output; its next actions ask for `docs/safety.md`, templates and MCP notes, which this repository covers in `loop-constraints.md`, `.github/` and `CLAUDE.md`). `status .`: pattern issue-triage, state "not yet run", no runs in `loop-run-log.md`, exit 0. The score describes the scaffold. The operating level of this repository stays L1.
+
 ## Health checks
 
 ```text

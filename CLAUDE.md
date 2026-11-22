@@ -45,7 +45,7 @@ Nothing below runs yet. Each is introduced by the ticket named. On the owner's W
 | Purpose | Command | Status |
 |---|---|---|
 | Run all tests | `python -m unittest` | planned: introduced by ticket #2 |
-| Run a store | `python -m retail_pos --role store --data-dir <dir> --port <port> --store-id <A or B>` | planned: introduced by ticket #2 |
+| Run a store | `python -m retail_pos --role store --data-dir <dir> --port <port> --store-id <one of A to H> [--head-office-url http://127.0.0.1:<port>]` | planned: introduced by ticket #2 (`--head-office-url` is optional there and drives the manual send; ticket #5 adds the delivery worker). Store IDs are fixed to A to H; this epic uses A and B. |
 | Run head office | `python -m retail_pos --role head-office --data-dir <dir> --port <port>` | planned: introduced by ticket #2, completed by ticket #4 |
 | Repeatable offline-sale demo from a clean directory | `python -m retail_pos.demo` | planned: introduced by ticket #2 |
 | Two-store evidence report with controlled exits | `python -m retail_pos.evidence` | planned: introduced by ticket #7 |
@@ -100,7 +100,7 @@ How a ticket gets from the backlog to a pull request. Each item is defined in th
 - **Playbook:** [implement-ticket](.claude/skills/implement-ticket/SKILL.md), with the roles in "Agent roles" below.
 - **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its local ledger is `.claude/state/`, which Git ignores.
 - **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first.
-- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that ticket removes; the gate self-test runs always.
+- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that enables itself once `retail_pos/__init__.py` exists; the gate self-test runs always. Deleting the guard line afterwards is optional cleanup that needs the owner (edits to `.github/` ask first).
 - **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).
 - **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
 - **Changelog:** every ticket pull request adds a line to [CHANGELOG.md](CHANGELOG.md).

@@ -10,9 +10,9 @@ vibe: Builds responsive, accessible web apps with pixel-perfect precision.
 
 **Project.** Offline Retail POS Simulator: a store process and a head-office process (Python 3.12 standard library, SQLite, native HTML, CSS and JavaScript, loopback only, no dependencies, no outgoing request; `CLAUDE.md`, "Stack and hard rules"). **Nothing is implemented yet:** paths and commands below are planned (`docs/architecture.md`, `CLAUDE.md` "Commands (all planned)") and become real in the ticket named.
 
-**Your job here.** You implement the browser side in the planned `retail_pos/static/` in native HTML, CSS and JavaScript: the register (product search, quantities, basket, discount, tender shares, finalize), the receipt print view, the operator panel, the refund lookup and the cash-up screen. Tickets #2, #5, #6, #7 and the register-depth ticket of epic #1 touch it.
+**Your job here.** You implement the browser side in the planned `retail_pos/static/` in native HTML, CSS and JavaScript: the register (product search, quantities, basket, discount, tender shares, finalize), the receipt print view, the operator panel, the refund lookup and the cash-up screen. Tickets #2, #5 and #6 and the register-depth ticket of epic #1 touch it.
 
-**Commands** (planned). Start a store with `python -m retail_pos --role store --data-dir <scratch> --port <port> --store-id A` (ticket #2) and open the loopback URL. Tests: `python -m unittest`. Browser checks are manual and recorded; there is no browser automation.
+**Commands** (planned). Start a store with `python -m retail_pos --role store --data-dir <scratch> --port <port> --store-id A` (ticket #2; A to H are valid store IDs) and open the loopback URL. Tests: `python -m unittest`. Browser checks are manual and recorded; there is no browser automation.
 
 **Checklist** (`docs/TECHNICAL_SPEC.md`, "Runtime and interface").
 - Keyboard first: a sensible tab order, visible focus, labelled errors, and a text summary of total and outstanding amount. A sale can be completed without a mouse.

@@ -12,7 +12,7 @@ vibe: Designs the systems that hold everything up — databases, APIs, cloud, sc
 
 **Your job here.** You implement the server side in the planned `retail_pos/` package: `http_common.py` (guards, JSON, static files), `store/` (schema, checkout, shifts, refunds, outbox, sync, routes), `head_office/` (ledger, ingest, cursor, reports, routes), `money.py` and `contract.py`. Tickets #2 to #7 and the register-depth and test-link tickets of epic #1 need you.
 
-**Commands** (all planned; `CLAUDE.md`). Tests: `python -m unittest` (ticket #2). Run a store or head office: `python -m retail_pos --role store|head-office --data-dir <dir> --port <port> [--store-id <id>]` (ticket #2). Use a scratch data directory and an ephemeral port.
+**Commands** (all planned; `CLAUDE.md`). Tests: `python -m unittest` (ticket #2). Run a store or head office: `python -m retail_pos --role store|head-office --data-dir <dir> --port <port> [--store-id <one of A to H>] [--head-office-url http://127.0.0.1:<port>]` (ticket #2). Use a scratch data directory and an ephemeral port.
 
 **Checklist** (`docs/TECHNICAL_SPEC.md`).
 - Standard library only: `http.server`, `sqlite3`, `json`, `hashlib`. No framework, no ORM, no new dependency.

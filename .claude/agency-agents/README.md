@@ -76,5 +76,3 @@ One sentence beginning "Use proactively" was appended to the `description:` line
 This supersedes any statement above that a role file is unmodified or that the `tools:` line is the only local change. To compare a role with the pinned upstream file, first remove the "Use proactively" sentence (in Backend Architect, Frontend Developer, API Tester, Performance Benchmarker and Reality Checker also the full stop that was added in front of it, because the upstream description has none), the section "In this repository" together with the blank line after it, and the `tools:` line where one was added. Checked on 2026-11-22: with these three removed, each of the eleven files has the upstream SHA-256 listed in the table above. After fetching a newer upstream revision (see "Updating"), put all three back and check each section against the code as it then is.
 
 The steps at which each role runs are in `.claude/skills/implement-ticket/SKILL.md`.
-
-Loading check: the `claude -p` listing of project agents was not run in this preparation stage. It remains to be done once from the repository root in a new session before the roles are called verified.

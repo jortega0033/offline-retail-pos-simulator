@@ -29,8 +29,9 @@ jobs:
       - name: Review gate self-test
         run: python .claude/hooks/role_gate.py --self-test
       # GUARD: the repository has no application code yet, and `python -m unittest`
-      # exits non-zero when it finds no tests. Ticket #2 (walking skeleton) adds
-      # retail_pos/ and its tests and deletes this `if:` line in the same pull request.
+      # exits non-zero when it finds no tests. The `if:` below enables the step by
+      # itself once ticket #2 (walking skeleton) adds retail_pos/__init__.py. Deleting
+      # the `if:` line afterwards is optional cleanup that needs the owner.
       - name: Tests
         if: ${{ hashFiles('retail_pos/__init__.py') != '' }}
         run: python -m unittest

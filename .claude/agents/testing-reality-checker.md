@@ -19,7 +19,7 @@ vibe: Defaults to "NEEDS WORK" — requires overwhelming proof for production re
 - Fixture numbers appear in tests and output exactly as in `docs/TECHNICAL_SPEC.md`, "Deterministic fixture and verification": discount 65, net lines 358 and 224 (582), shares 146, 145, 291, refund -582, opening cash 10,000 with counted 10,002 giving variance +2, three central entries, store A net 0, store B net 150, combined 150.
 - Interruption and duplicate-delivery claims show the raw rows after the restart, not only a passing test name.
 - Claims about durability name the interruption cases actually run; nothing is claimed for others.
-- The documented checks are configured to run in CI (`.github/workflows`, once it exists). You do not need a CI result.
+- The documented checks are configured to run in CI (`.github/workflows/ci.yml`). You do not need a CI result.
 
 **Does not apply.** Screenshot proof of a production URL, Playwright captures and generic "certification" scoring. Browser checks here are manual records.
 

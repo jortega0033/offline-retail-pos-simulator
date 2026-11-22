@@ -2,7 +2,7 @@
 
 Ten rules for every screen and every piece of user-facing text in this repository: the register, receipt print view, operator panel, refund lookup, cash-up screen and the head-office summary page. Rules 1 and 2 were stated by the owner; rules 3 to 10 were proposed and approved by the owner on 2026-11-22. All ten are binding. Changing one needs the owner ([owner-decisions.md](owner-decisions.md), entry 12).
 
-No UI source exists yet, so nothing has been checked against these rules. The tickets that build screens (#2, #5, #6, #7, #9) name this file in their acceptance criteria.
+No UI source exists yet, so nothing has been checked against these rules. The tickets that build screens (#2, #5, #6 and the register-depth ticket, planned as #9) name this file in their acceptance criteria.
 
 1. No thick accent border on one side of a card, callout, alert, list item or quote (for example `border-left: 4px solid <accent>`). Use spacing, type weight, an icon or a full hairline border instead.
 2. No soft tinted background with a thin border of the same hue as the default way to mark a status, tag, callout or card. One neutral surface and one clear signal (text, icon or a solid chip) is enough.

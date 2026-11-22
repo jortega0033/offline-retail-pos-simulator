@@ -32,7 +32,7 @@ Each ticket applies the default if the owner has not answered. A decision the ow
 | D7 | Sync trigger and backoff | background worker plus a manual send; 1 s doubling to a 30 s cap | #5 |
 | D8 | Limits | body 64 KiB; quantity 1 to 999; at most 50 lines; price at most 1,000,000 minor units | #2, #3 |
 | D10 | Test-only fault switch | `RETAIL_POS_TEST_HARNESS=1` plus a checkpoint name in the environment, read once at start | #3, #7, #8 |
-| D11 | Meaning of "zero external requests" | static scan for absolute URLs, CSP `default-src 'self'` on every static response, manual network log | #7 |
+| D11 | Meaning of "zero external requests" | static scan for absolute URLs, CSP `default-src 'self'` on every static response (set in #2, asserted again in #7), manual network log | #2, #7 |
 | D12 | Resource measurement | wall time, SQLite file sizes, peak memory of owned processes where the OS allows | #7 |
 | D13 | Licence | left unselected; no LICENSE file is added (owner decision, not ticketed) | none |
 | D14 | Platforms | Windows and Linux, Python 3.12 and 3.13 | CI |
@@ -41,3 +41,5 @@ Each ticket applies the default if the owner has not answered. A decision the ow
 | D17 | Cash tender | every tender share is virtual cash; all signed events count toward expected cash | #6 |
 | D18 | Shift rules | one open shift per store; opening cash entered at open; a closed shift is final | #2, #6 |
 | D19 | Conflict handling | a conflict pauses the store; no resume action in this epic | #4, #5 |
+
+There is no D9. The number was dropped while the plan was written and is not reused, so the IDs that tickets cite stay stable.

@@ -17,11 +17,11 @@ Python 3.12, standard library only. There is no lint step, build step or package
 ## Run (planned: introduced by ticket #2)
 
 ```
-python -m retail_pos --role store --data-dir <scratch-dir> --port <port> --store-id A
+python -m retail_pos --role store --data-dir <scratch-dir> --port <port> --store-id <one of A to H> [--head-office-url http://127.0.0.1:<port>]
 python -m retail_pos --role head-office --data-dir <scratch-dir> --port <port>
 ```
 
-Both bind loopback only. Use a scratch data directory outside the repository.
+Store IDs are fixed to A to H (A and B are used in the first epic). `--head-office-url` is optional and loopback only. Both bind loopback only. Use a scratch data directory outside the repository.
 
 ## Ticket work
 

@@ -10,7 +10,7 @@ A planned offline project. Implementation has not started. The repository curren
 
 ## Current status
 
-The fixtures describe expected results for future checks. No working baseline or passing implementation tests are claimed. Required runtime versions and offline dependencies must be checked before the first build.
+The package skeleton exists (`retail_pos/`, `tests/`); no product behaviour does. Run `python -m unittest` for the scaffold smoke tests and `python -m retail_pos --help` for the planned options. The fixtures describe expected results for future checks. No working baseline or passing implementation tests are claimed beyond those smoke tests. Required runtime versions and offline dependencies must be checked before the first build.
 
 ## Licensing
 

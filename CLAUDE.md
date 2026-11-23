@@ -6,7 +6,7 @@ Working instructions for this repository. Read this file first, then the documen
 
 A simulator of an offline retail point of sale for a fictional chain. A store process sells while head office is unreachable, keeps printable receipts, and later delivers every transaction to a separate head-office process exactly once. Full refunds and shift cash-up are part of the scope.
 
-**State today: planning only.** The repository holds the README, the product plan and the technical specification. There is no application code, no test, no runnable command and no CI result. Every command in this file is planned; it is marked with the ticket that introduces it and must not be assumed to work until that ticket is merged. Do not claim a baseline that does not exist ([README.md](README.md), "Current status").
+**State today: scaffold only.** The repository holds the README, the product plan, the technical specification and an empty package skeleton (`retail_pos/`, `tests/`): modules with a one-line responsibility, a command line that answers `--help` and `--version`, and smoke tests. No product behaviour exists. A command marked planned below must not be assumed to work until the ticket that introduces it is merged. Do not claim a baseline that does not exist ([README.md](README.md), "Current status").
 
 ## Sources of truth
 
@@ -38,13 +38,14 @@ From [docs/TECHNICAL_SPEC.md](docs/TECHNICAL_SPEC.md), "Runtime and interface". 
 - Synthetic data only: no real payments, personal data, tax, inventory reservation, loyalty, price distribution or partial refunds.
 - Tests use temporary directories and ephemeral ports, no fixed port, no network, no dependence on wall-clock timing for a pass. Generated IDs and databases are new on every run.
 
-## Commands (all planned)
+## Commands
 
-Nothing below runs yet. Each is introduced by the ticket named. On the owner's Windows machine Python is `python` (`python3` on Linux).
+Commands marked real work today. Each planned one is introduced by the ticket named; until then it exits non-zero with "not implemented yet: see #<ticket>". On the owner's Windows machine Python is `python` (`python3` on Linux).
 
 | Purpose | Command | Status |
 |---|---|---|
-| Run all tests | `python -m unittest` | planned: introduced by ticket #2 |
+| Run all tests | `python -m unittest` | real (scaffold smoke tests; ticket #11 adds the guard tests) |
+| Show usage and version | `python -m retail_pos --help`, `python -m retail_pos --version` | real |
 | Run a store | `python -m retail_pos --role store --data-dir <dir> --port <port> --store-id <one of A to H> [--head-office-url http://127.0.0.1:<port>]` | planned: introduced by ticket #2 (`--head-office-url` is optional there and drives the manual send; ticket #5 adds the delivery worker). Store IDs are fixed to A to H; this epic uses A and B. |
 | Run head office | `python -m retail_pos --role head-office --data-dir <dir> --port <port>` | planned: introduced by ticket #2, completed by ticket #4 |
 | Repeatable offline-sale demo from a clean directory | `python -m retail_pos.demo` | planned: introduced by ticket #2 |
@@ -100,7 +101,7 @@ How a ticket gets from the backlog to a pull request. Each item is defined in th
 - **Playbook:** [implement-ticket](.claude/skills/implement-ticket/SKILL.md), with the roles in "Agent roles" below.
 - **Review gate hook:** [`.claude/hooks/role_gate.py`](.claude/hooks/role_gate.py) blocks `gh pr create` and `gh pr ready` until Code Reviewer and Reality Checker ran after the last code edit (documentation-only changes pass). The owner can switch it off for a session by starting Claude Code with `ROLE_GATE=off`. Its ledger is `claude-role-runs.jsonl` in the repository's common git dir (shared by the main checkout and all worktrees); the older `.claude/state/role-runs.jsonl`, which Git ignores, is still read.
 - **Permissions:** [`.claude/settings.json`](.claude/settings.json). Documented commands are allowed; force pushes, pushes to `main`, `gh pr merge`, releases and reads of `.env` are denied; edits to `.github/`, agent configuration, hooks, skills, this file, `AGENTS.md` and the Loop files ask first, at any depth so ticket worktrees ask too. Acceptance steps that need a person are listed under "Owner checks" in the pull request.
-- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. The driver does not poll: after the push it ends the turn with "Draft pull request #N is waiting for CI" and reads `gh pr checks` once when woken. Until ticket #2 adds `retail_pos/`, the test step is skipped by a guard that enables itself once `retail_pos/__init__.py` exists; the gate self-test runs always. Deleting the guard line afterwards is optional cleanup that needs the owner (edits to `.github/` ask first).
+- **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on Linux and Windows with Python 3.12 and 3.13. It must be green before a pull request is marked ready. The driver does not poll: after the push it ends the turn with "Draft pull request #N is waiting for CI" and reads `gh pr checks` once when woken. The test step runs `python -m unittest` unconditionally; the guard that skipped it is gone. The gate self-test runs always.
 - **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).
 - **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
 - **Changelog:** every ticket pull request adds a line to [CHANGELOG.md](CHANGELOG.md).

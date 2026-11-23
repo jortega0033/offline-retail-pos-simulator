@@ -1,0 +1,7 @@
+[project]
+name = "retail-pos-simulator"
+version = "0.0.0"
+description = "Simulator of an offline retail point of sale for a fictional chain."
+requires-python = ">=3.12"
+# Runtime and dev tooling: standard library only. No dependencies, no build step.
+dependencies = []

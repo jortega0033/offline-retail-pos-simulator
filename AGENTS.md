@@ -4,15 +4,15 @@ The full repository instructions are in [CLAUDE.md](CLAUDE.md). This file repeat
 
 ## State
 
-Planning only: there is no application code, test or runnable command yet. The commands in `CLAUDE.md` are planned and are introduced by the tickets named there.
+Scaffold only: the package skeleton, `python -m unittest` and `python -m retail_pos --help|--version` are real. There is no product behaviour; the other commands in `CLAUDE.md` are planned and introduced by the tickets named there.
 
-## Test commands (planned: introduced by ticket #2)
+## Test commands (real)
 
 ```
 python -m unittest
 ```
 
-Python 3.12, standard library only. There is no lint step, build step or package manifest. Do not add pip or npm dependencies.
+Python 3.12, standard library only. `pyproject.toml` pins `requires-python` and has no dependencies. There is no lint step or build step. Do not add pip or npm dependencies.
 
 ## Run (planned: introduced by ticket #2)
 

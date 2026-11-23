@@ -1,6 +1,6 @@
 # Implementer map (planned, not implemented)
 
-Nothing described here exists yet. [TECHNICAL_SPEC.md](TECHNICAL_SPEC.md) states the design; this page adds only what an implementer needs and the spec leaves open: where code lives and who owns which data. Names are defaults chosen by the plan. The first ticket (#2) confirms or changes them here in the same pull request.
+Only the empty module skeleton exists (one-line responsibilities, no behaviour); the rest described here is not built yet. [TECHNICAL_SPEC.md](TECHNICAL_SPEC.md) states the design; this page adds only what an implementer needs and the spec leaves open: where code lives and who owns which data. Names are defaults chosen by the plan. The first ticket (#2) confirms or changes them here in the same pull request.
 
 ## Processes
 

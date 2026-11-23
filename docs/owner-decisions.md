@@ -1,6 +1,6 @@
 # Owner decisions
 
-A dated record of the decisions the owner made for this repository, so the rules do not depend on anyone's memory of a conversation. Every entry is dated 2026-11-22. Changing any entry needs the owner; an agent that finds a decision blocking a ticket stops and says so.
+A dated record of the decisions the owner made for this repository, so the rules do not depend on anyone's memory of a conversation. Every entry is dated 2026-11-22 unless it names its own date. Changing any entry needs the owner; an agent that finds a decision blocking a ticket stops and says so.
 
 | # | Decision | Implemented in |
 |---|---|---|
@@ -16,6 +16,7 @@ A dated record of the decisions the owner made for this repository, so the rules
 | 10 | Open decisions on tickets are settled with the ticket's stated default. Settled this way, with the default and the issues that use it, in the table below. | Issues #2 to #9 |
 | 11 | Rust (where present) is verified in CI only. Not applicable: this repository has no Rust. | None |
 | 12 | The ten UI rules in [`ui-quality.md`](ui-quality.md) are binding, and the `ui-ux-pro-max` and `unslop` skills are installed in the repository and used for UI work and for copy. | [`ui-quality.md`](ui-quality.md), [`.claude/skills/ui-ux-pro-max/`](../.claude/skills/ui-ux-pro-max/), [`.claude/skills/unslop/`](../.claude/skills/unslop/) |
+| 13 | 2026-11-23: Visual system: Pipenzo Flow look tokens (`docs/design-tokens.md`). SDLC kit version: jortega0033/sdlc-kit v1.0.0. | [`design-tokens.md`](design-tokens.md), `retail_pos/static/tokens.css` |
 
 ## Decisions settled with the ticket default (entry 10)
 

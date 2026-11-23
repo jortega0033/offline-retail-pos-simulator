@@ -105,6 +105,7 @@ How a ticket gets from the backlog to a pull request. Each item is defined in th
 - **Pull request:** [template](.github/pull_request_template.md). Ticket template: [implementation-ticket](.github/ISSUE_TEMPLATE/implementation-ticket.md).
 - **Labels:** `status:ready`, `status:blocked`, `status:in-progress`, `needs-decision`.
 - **Changelog:** every ticket pull request adds a line to [CHANGELOG.md](CHANGELOG.md).
+- **Design tokens:** all UI colours, type, spacing and radii come from `retail_pos/static/tokens.css`, described in [docs/design-tokens.md](docs/design-tokens.md); new UI uses these tokens and adds no colour literal.
 - **UI and copy:** UI tickets follow [docs/ui-quality.md](docs/ui-quality.md) and start with the `ui-ux-pro-max` skill; copy, docs and pull request text go through the `unslop` skill.
 - **Merge and release:** only the owner merges and releases ([docs/RELEASING.md](docs/RELEASING.md)). Decisions the owner made are in [docs/owner-decisions.md](docs/owner-decisions.md); an agent that finds one blocking a ticket stops and says so.
 

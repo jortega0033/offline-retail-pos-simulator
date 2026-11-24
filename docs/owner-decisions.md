@@ -44,3 +44,13 @@ Each ticket applies the default if the owner has not answered. A decision the ow
 | D19 | Conflict handling | a conflict pauses the store; no resume action in this epic | #4, #5 |
 
 There is no D9. The number was dropped while the plan was written and is not reused, so the IDs that tickets cite stay stable.
+
+## Program decisions (owner, 2026-11-24)
+
+The owner accepted the goal and each suggestion below. They apply from the phase they name; the rules of `CLAUDE.md` hold for phase 1 as written.
+
+| Decision | Implemented in |
+|---|---|
+| The repository has a program goal above phase 1: the distributed system behind a retail chain, in six phases. | Program issue #39 |
+| Real payments and personal data stay out, as now. | Program issue #39 |
+| The idea sounds like a till app. Suggested: lead with the distributed ledger and its fault simulator. | Program issue #39 |

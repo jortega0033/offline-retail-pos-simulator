@@ -1,5 +1,7 @@
 # Offline Retail POS Simulator
 
+> This document specifies phase 1 of the program in [#39](https://github.com/jortega0033/offline-retail-pos-simulator/issues/39). Hour figures in it are early estimates for that phase; its open tickets add up to 60 to 95 hours (2026-11-24). Work that it defers is planned in the later phases only where the program names it.
+
 Engineering plan for a fictional retail chain. One epic and six future tickets estimate **18–30 engineering hours**. The product, fault harness, and performance measurements are planned.
 
 ## Product requirements
